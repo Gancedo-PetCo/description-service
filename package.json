@@ -1,0 +1,71 @@
+{
+  "name": "description_directions_attributes_",
+  "version": "1.0.0",
+  "description": "Provides additional description and item details",
+  "main": "index.js",
+  "scripts": {
+    "react-dev": "webpack -d --watch",
+    "test": "jest --forceExit --detectOpenHandles",
+    "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
+    "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
+    "seed": "node database-mongodb/seed.js",
+    "start": "nodemon start.js "
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "./src/setupTests.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PetToyCo/description_directions_attributes_.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PetToyCo/description_directions_attributes_/issues"
+  },
+  "homepage": "https://github.com/PetToyCo/description_directions_attributes_#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-react": "^7.10.1",
+    "@shelf/jest-mongodb": "^1.1.5",
+    "babel-jest": "^26.1.0",
+    "babel-loader": "^8.1.0",
+    "compression-webpack-plugin": "^4.0.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.5.0",
+    "eslint": "^7.2.0",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "jest": "^26.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "supertest": "^4.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "async-wait-until": "^1.2.4",
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "bluebird": "^3.7.2",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "fetch": "^1.1.0",
+    "mongoose": "^5.9.19",
+    "nock": "^13.0.0",
+    "nodemon": "^2.0.4",
+    "path": "^0.12.7",
+    "sinon": "^9.0.2"
+  }
+}
