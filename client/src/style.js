@@ -16,15 +16,15 @@ const button = {
   color: '#005891',
   fontSize: '.9375em',
   fontWeight: 'bold',
-  backgroundColor: 'white'
-}
+  backgroundColor: 'white',
+};
 
 const directionStyleP = {
   color: '#333',
   fontSize: '.9375em',
   lineHeight: '1.6em',
-  fontFamily: 'Arial, sans-serif'
-}
+  fontFamily: 'Arial, sans-serif',
+};
 
 const directionStyleD = {
   margin: '0px 20px',
@@ -32,14 +32,14 @@ const directionStyleD = {
   border: '0',
   fontSize: '100%',
   font: 'inherit',
-  verticalAlign: 'baseline'
-}
+  verticalAlign: 'baseline',
+};
 
 const additionalStyleP = {
   color: '#333',
   fontFamily: 'tahoma, arial, helvetica, sans-serif',
-  fontSize: '12px'
-}
+  fontSize: '12px',
+};
 
 const additionalStyleD = {
   margin: '0px 20px',
@@ -47,8 +47,8 @@ const additionalStyleD = {
   border: '0',
   fontSize: '100%',
   font: 'inherit',
-  verticalAlign: 'baseline'
-}
+  verticalAlign: 'baseline',
+};
 
 const ulAtt = {
   width: '34%',
@@ -56,8 +56,8 @@ const ulAtt = {
   fontFamily: 'Arial, sans-serif',
   lineHeight: '1.25em',
   listStyle: 'none',
-  marginBottom: '20px'
-}
+  marginBottom: '20px',
+};
 
 const ulDesc = {
   width: '34%',
@@ -66,8 +66,8 @@ const ulDesc = {
   lineHeight: '1.25em',
   listStyle: 'none',
   marginBottom: '20px',
-  float: 'right'
-}
+  float: 'right',
+};
 
 const title = {
   color: '#333',
@@ -82,8 +82,8 @@ const title = {
   textAlign: 'left',
   verticalAlign: 'baseline',
   margin: '0',
-  padding: '0'
-}
+  padding: '0',
+};
 
 const bullets = {
   display: 'block',
@@ -97,13 +97,13 @@ const bullets = {
   fontFamily: 'Arial, sans-serif',
   textAlign: 'left',
   margin: '0',
-}
+};
 
 const liGrey = {
   backgroundColor: 'rgba(233,236,237,0.5)',
   borderTop: '1px solid #d4dadc',
-  borderBottom: '1px solid #d4dadc'
-}
+  borderBottom: '1px solid #d4dadc',
+};
 
 const liGreyItal = {
   backgroundColor: 'rgba(233,236,237,0.5)',
@@ -113,8 +113,8 @@ const liGreyItal = {
   textAlign: 'left',
   fontWeight: 'bold',
   fontSize: '0.9375em',
-  whiteSpace: 'nowrap'
-}
+  whiteSpace: 'nowrap',
+};
 
 const spanKey = {
   boxSizing: 'border-box',
@@ -123,8 +123,8 @@ const spanKey = {
   color: '#333',
   width: '40%',
   fontWeight: 'bold',
-  fontSize: '0.9375em'
-}
+  fontSize: '0.9375em',
+};
 
 const spanVal = {
   boxSizing: 'border-box',
@@ -134,8 +134,8 @@ const spanVal = {
   left: '135px',
   fontSize: '0.9375em',
   color: '#333',
-  vertialAlign: 'middle'
-}
+  vertialAlign: 'middle',
+};
 
 const spanValDesc = {
   boxSizing: 'border-box',
@@ -145,8 +145,8 @@ const spanValDesc = {
   left: '10px',
   fontSize: '0.9375em',
   color: '#333',
-  vertialAlign: 'middle'
-}
+  vertialAlign: 'middle',
+};
 
 export {
   button,
@@ -162,22 +162,14 @@ export {
   liGreyItal,
   ulDesc,
   title,
-  bullets
-}
-
-
-
-
-
+  bullets,
+};
 
 // const body = {
 //   width: '100%',
 //   margin: '0 auto',
 //   padding: '5px'
 //   //display: 'block',
-
-
-
 
 //  // margin: '0',
 //   // marginLeft: '100px',
