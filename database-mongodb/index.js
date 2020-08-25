@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 
 //development:
-mongoose.connect('mongodb://localhost/description_directions_attributes');
+mongoose.connect('mongodb://localhost/description_directions_attributes', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 //production:
 // mongoose.connect('mongodb://ec2-52-14-208-55.us-east-2.compute.amazonaws.com/Description', { useUnifiedTopology: true, useNewUrlParser: true });
