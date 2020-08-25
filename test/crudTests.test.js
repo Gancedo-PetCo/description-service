@@ -3,6 +3,7 @@ const db = require('../database-mongodb/index');
 const app = require('../server.js');
 const supertest = require('supertest');
 const request = supertest(app);
+const axios = require('axios');
 import 'babel-polyfill';
 
 const fakeData = [
@@ -57,14 +58,12 @@ describe('CRUD Endpoint Tests', () => {
 
   it('modifies an object at the /descriptionObject/:itemId put endpoint', async (done) => {
     const itemSearchingFor = await db.Description.find({ itemId: 200 });
-    const oldTitle = itemSearchingFor.title;
-    await request.post('/descriptionObject/200').send({
-      title: 'Updated!',
-    });
+    const oldTitle = itemSearchingFor[0].title;
+    await request.put('/descriptionObject/200').send({ title: 'Updated!' });
     const sameItemSearch = await db.Description.find({ itemId: 200 });
-    const newTitle = sameItemSearch.title;
-    expect(oldTitle).not.toBe('Dog Toy');
-    expect(newTitle).not.toBe('Update');
+    const newTitle = sameItemSearch[0].title;
+    expect(oldTitle).toBe('Dog Toy');
+    expect(newTitle).toBe('Updated!');
     done();
   });
 });

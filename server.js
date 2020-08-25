@@ -159,8 +159,9 @@ app.put('/descriptionObject/:itemId', (req, res) => {
   const itemToChange = req.params.itemId;
   const key = Object.keys(req.body)[0];
   const value = Object.values(req.body)[0];
-  db.Description.updateOne({ itemId: itemToChange }, { material: value })
+  db.Description.updateOne({ itemId: itemToChange }, { [key]: value })
     .then((response) => {
+      console.log('Here is the response', response);
       console.log('Updated');
       res
         .status(200)
