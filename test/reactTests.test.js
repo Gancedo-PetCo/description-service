@@ -64,13 +64,13 @@ describe('DescriptionService', () => {
     expect(wrapper.find('#directionsTab').length).toBe(0);
   });
 
-  it('should find the #descriptionTab div when Description is mounted', () => {
-    wrapper = shallow(<Description description={fakeData1} />, {
-      disableLifecycleMethods: true,
-    });
-    expect(wrapper.find('#descriptionTab').length).toBe(1);
-    expect(wrapper.find('span').length).toBe(8);
-  });
+  // it('should find the #descriptionTab div when Description is mounted', () => {
+  //   wrapper = shallow(<Description description={fakeData1} />, {
+  //     disableLifecycleMethods: true,
+  //   });
+  //   expect(wrapper.find('#descriptionTab').length).toBe(1);
+  //   expect(wrapper.find('span').length).toBe(8);
+  // });
 
   it('should find the #directionsTab div when Directions is mounted', () => {
     wrapper = shallow(<Directions directions={fakeData2} />, {
