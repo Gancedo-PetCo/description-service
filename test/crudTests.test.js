@@ -37,4 +37,13 @@ describe('CRUD Endpoint Tests', () => {
     expect(newCount).toEqual(oldCount + 1);
     done();
   });
+
+  it('deletes an object at the /descriptionObject endpoint', async (done) => {
+    const oldCount = await db.Description.count({});
+    const response = await request.delete(`/descriptionObject/${oldCount}`);
+    const newCount = await db.Description.count({});
+    expect(response.status).toBe(200);
+    expect(newCount).toEqual(oldCount - 1);
+    done();
+  });
 });
