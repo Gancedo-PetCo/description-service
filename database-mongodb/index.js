@@ -80,6 +80,10 @@ const createNewDescriptionDocument = (itemId) => {
   return Description.create(newDoc);
 };
 
+const deleteDescriptionDocument = (itemId) => {
+  return Description.deleteOne({ itemId: itemId });
+};
+
 module.exports.Description = Description;
 module.exports.db = db;
 module.exports.getTitleAndBrand = getTitleAndBrand;
@@ -87,3 +91,4 @@ module.exports.getDescriptionObject = getDescriptionObject;
 module.exports.getTitlesAndBrands = getTitlesAndBrands;
 module.exports.getNextId = getNextId;
 module.exports.createNewDescriptionDocument = createNewDescriptionDocument;
+module.exports.deleteDescriptionDocument = deleteDescriptionDocument;

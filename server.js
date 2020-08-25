@@ -143,4 +143,13 @@ app.post('/descriptionObject', (req, res) => {
     })
     .catch((error) => console.log('Error in getting the next id', error));
 });
+
+app.delete('/descriptionObject/:itemId', (req, res) => {
+  const itemId = req.params.itemId;
+  db.deleteDescriptionDocument(itemId).then((response) => {
+    console.log('Deleted object with itemId: ', itemId);
+    res.status(200).send(`Document with id ${itemId} deleted from the db`);
+  });
+});
+
 module.exports = app;
