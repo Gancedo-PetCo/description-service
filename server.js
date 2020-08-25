@@ -127,8 +127,20 @@ app.get('/descriptionObject/:itemId', (req, res) => {
     });
 });
 
-// app.listen(3002, () => {
-//   console.log('Express server listening on port 3002');
-// });
-
+app.post('/descriptionObject', (req, res) => {
+  db.getNextId()
+    .then((response) => {
+      return response[0].itemId;
+    })
+    .then((currentId) => {
+      db.createNewDescriptionDocument(currentId + 1).then((response) => {
+        console.log('Document created with itemId', currentId + 1);
+        console.log('Next id to be added:', currentId + 2);
+        res
+          .status(200)
+          .send(`Document with id ${currentId + 1} Added to the db`);
+      });
+    })
+    .catch((error) => console.log('Error in getting the next id', error));
+});
 module.exports = app;
