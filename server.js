@@ -1,10 +1,13 @@
 const express = require('express');
 const path = require('path');
 const db = require('./database-mongodb/index.js');
-
+const bodyParser = require('body-parser');
+const { send } = require('process');
 const app = express();
-
 //crossorigin permission for 3000, 3004, 3005 and 3006
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use((req, res, next) => {
   //local address
   const address = 'http://127.0.0.1';
@@ -127,8 +130,46 @@ app.get('/descriptionObject/:itemId', (req, res) => {
     });
 });
 
-// app.listen(3002, () => {
-//   console.log('Express server listening on port 3002');
-// });
+app.post('/descriptionObject', (req, res) => {
+  db.getNextId()
+    .then((response) => {
+      return response[0].itemId;
+    })
+    .then((currentId) => {
+      db.createNewDescriptionDocument(currentId + 1).then((response) => {
+        console.log('Document created with itemId', currentId + 1);
+        console.log('Next id to be added:', currentId + 2);
+        res
+          .status(200)
+          .send(`Document with id ${currentId + 1} Added to the db`);
+      });
+    })
+    .catch((error) => console.log('Error in getting the next id', error));
+});
+
+app.delete('/descriptionObject/:itemId', (req, res) => {
+  const itemId = req.params.itemId;
+  db.deleteDescriptionDocument(itemId).then((response) => {
+    console.log('Deleted object with itemId: ', itemId);
+    res.status(200).send(`Document with id ${itemId} deleted from the db`);
+  });
+});
+
+app.put('/descriptionObject/:itemId', (req, res) => {
+  const itemToChange = req.params.itemId;
+  const key = Object.keys(req.body)[0];
+  const value = Object.values(req.body)[0];
+  db.Description.updateOne({ itemId: itemToChange }, { [key]: value })
+    .then((response) => {
+      console.log('Here is the response', response);
+      console.log('Updated');
+      res
+        .status(200)
+        .send(
+          `Document with id ${itemToChange} was updated at key ${key} with value ${value}`
+        );
+    })
+    .catch((error) => console.log('Error updating', error));
+});
 
 module.exports = app;

@@ -6,6 +6,7 @@ import Attributes from './Components/Attributes.jsx';
 import Additional from './Components/Additional.jsx';
 import axios from 'axios';
 import { button } from './style.js';
+const faker = require('faker');
 
 class DescriptionService extends React.Component {
   constructor(props) {
