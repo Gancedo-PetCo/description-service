@@ -38,10 +38,9 @@ describe('CRUD Delete Endpoint Tests', () => {
       `/descriptionObject/${oldCount + 99}`
     );
     const newCount = await db.Description.count({});
-    console.log('HERE IS THE OLD COUNT', oldCount);
-    console.log('HERE IS THE NEW COUNT', newCount);
-
     expect(response.status).toBe(200);
+    expect(oldCount).toEqual(101);
+    expect(newCount).toEqual(100);
     expect(newCount).toEqual(oldCount - 1);
     done();
   });
