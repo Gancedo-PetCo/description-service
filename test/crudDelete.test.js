@@ -39,8 +39,6 @@ describe('CRUD Delete Endpoint Tests', () => {
     );
     const newCount = await db.Description.count({});
     expect(response.status).toBe(200);
-    expect(oldCount).toEqual(101);
-    expect(newCount).toEqual(100);
     expect(newCount).toEqual(oldCount - 1);
     done();
   });

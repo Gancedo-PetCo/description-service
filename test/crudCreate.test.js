@@ -17,7 +17,6 @@ describe('CRUD Create Endpoint Tests', () => {
     const newCount = await db.Description.count({});
     expect(response.status).toBe(200);
     expect(newCount).toEqual(oldCount + 1);
-    expect(newCount).toEqual(101);
     await request.delete(`/descriptionObject/${oldCount + 100}`);
     done();
   });
