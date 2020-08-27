@@ -1,7 +1,7 @@
 const faker = require('faker');
 const fs = require('fs');
-const writeUsers = fs.createWriteStream('users.csv');
-writeUsers.write(
+const writeDescriptions = fs.createWriteStream('descriptions.csv');
+writeDescriptions.write(
   'id,title, description, SKU, primaryBrand, daysToShip\n',
   'utf8'
 );
@@ -39,6 +39,6 @@ function writeTenMillionDescriptions(writer, encoding, callback) {
   write();
 }
 
-writeTenMillionDescriptions(writeUsers, 'utf-8', () => {
-  writeUsers.end();
+writeTenMillionDescriptions(writeDescriptions, 'utf-8', () => {
+  writeDescriptions.end();
 });
