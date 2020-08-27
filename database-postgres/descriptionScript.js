@@ -21,7 +21,9 @@ function writeTenMillionDescriptions(writer, encoding, callback) {
       const daysToShip = `Ships In ${Math.floor(
         Math.random() * 10
       )} Business Days`;
-      const data = `${id},${title},${description},${SKU},${primaryBrand}, ${daysToShip}\n`;
+      const data = `${
+        id + 99
+      },${title},${description},${SKU},${primaryBrand}, ${daysToShip}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {
