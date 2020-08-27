@@ -1,7 +1,7 @@
 const faker = require('faker');
 const fs = require('fs');
 const writeDetails = fs.createWriteStream('details.csv');
-writeDetails.write('id, additionalDetails, descriptionId\n', 'utf8');
+writeDetails.write('id, additionalDetails\n', 'utf8');
 
 function writeTenMillionDetails(writer, encoding, callback) {
   let i = 50;
@@ -12,7 +12,7 @@ function writeTenMillionDetails(writer, encoding, callback) {
       i -= 1;
       id += 1;
       const additionalDetails = faker.lorem.paragraph();
-      const data = `${id},${additionalDetails},${id + 99}\n`;
+      const data = `${id},${additionalDetails}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

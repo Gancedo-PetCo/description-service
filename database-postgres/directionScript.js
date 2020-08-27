@@ -12,7 +12,7 @@ function writeTenMillionDirections(writer, encoding, callback) {
       i -= 1;
       id += 1;
       const directions = faker.lorem.paragraph();
-      const data = `${id},${directions},${id + 99}\n`;
+      const data = `${id},"${directions}",${id + 99}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

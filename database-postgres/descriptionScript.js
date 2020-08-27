@@ -23,7 +23,7 @@ function writeTenMillionDescriptions(writer, encoding, callback) {
       )} Business Days`;
       const data = `${
         id + 99
-      },${title},${description},${SKU},${primaryBrand}, ${daysToShip}\n`;
+      },${title},"${description}",${SKU},"${primaryBrand}", "${daysToShip}"\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {
