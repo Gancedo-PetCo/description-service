@@ -10,7 +10,10 @@
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
-    "postgres-generate": "node database-postgres/generateDescription.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js "
+    "postgres-generate": "node database-postgres/generateDescription.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js",
+    "postgres-seed-description": "node database-postgres/seedDescription.js",
+    "parrallel-postgres-seed": "node database-postgres/seedDetails.js & node database-postgres/seedAttributes.js & node database-postgres/seedDirections.js",
+    "postgres-seed": "run-s postgres-seed-description  parrallel-postgres-seed"
   },
   "standard": {
     "env": [

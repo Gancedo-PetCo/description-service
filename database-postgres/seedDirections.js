@@ -2,7 +2,7 @@ const fs = require('fs');
 const Pool = require('pg').Pool;
 const fastcsv = require('fast-csv');
 
-let stream = fs.createReadStream('../database-postgres-data/directions.csv');
+let stream = fs.createReadStream('./database-postgres-data/directions.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse()
