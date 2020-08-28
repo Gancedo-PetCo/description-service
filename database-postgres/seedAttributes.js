@@ -23,7 +23,7 @@ let csvStream = fastcsv
     });
 
     const query =
-      'INSERT INTO attributes (id, "primaryColor", "material", "length", "width", "data") VALUES ($1, $2, $3, $4, $5, $6)';
+      'INSERT INTO attributes (id, "primaryColor", "material", "length", "width", "descriptionId") VALUES ($1, $2, $3, $4, $5, $6)';
     pool.connect((err, client, done) => {
       if (err) throw err;
       try {
