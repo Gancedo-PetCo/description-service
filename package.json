@@ -9,7 +9,8 @@
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
-    "start": "nodemon start.js "
+    "start": "nodemon start.js ",
+    "postgres-generate": "node database-postgres/generateDescription.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js "
   },
   "standard": {
     "env": [
@@ -70,6 +71,7 @@
     "nock": "^13.0.0",
     "nodemon": "^2.0.4",
     "npm": "^6.14.8",
+    "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
     "pg": "^8.3.3",
     "sinon": "^9.0.2"

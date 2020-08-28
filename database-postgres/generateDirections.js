@@ -1,7 +1,7 @@
 const faker = require('faker');
 const fs = require('fs');
 const writeDirections = fs.createWriteStream(
-  '../database-postgres-data/directions.csv'
+  './database-postgres-data/directions.csv'
 );
 writeDirections.write('id, directions, descriptionId\n', 'utf8');
 
