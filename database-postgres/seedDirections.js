@@ -2,7 +2,7 @@ const fs = require('fs');
 const Pool = require('pg').Pool;
 const fastcsv = require('fast-csv');
 
-let stream = fs.createReadStream('details.csv');
+let stream = fs.createReadStream('../database-postgres-data/directions.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse()
@@ -23,11 +23,9 @@ let csvStream = fastcsv
     });
 
     const query =
-      'INSERT INTO details (id, "additionalDetails", "descriptionId") VALUES ($1, $2, $3)';
-
+      'INSERT INTO directions (id, "directions", "descriptionId") VALUES ($1, $2, $3)';
     pool.connect((err, client, done) => {
       if (err) throw err;
-
       try {
         csvData.forEach((row) => {
           client.query(query, row, (err, res) => {

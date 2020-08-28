@@ -1,6 +1,8 @@
 const faker = require('faker');
 const fs = require('fs');
-const writeDescriptions = fs.createWriteStream('descriptions.csv');
+const writeDescriptions = fs.createWriteStream(
+  '../database-postgres-data/description.csv'
+);
 writeDescriptions.write(
   'id, title, description, SKU, primaryBrand, daysToShip\n',
   'utf8'
