@@ -12,9 +12,9 @@
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
     "postgres-generate": "node database-postgres/generateDescriptions.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js",
-    "postgres-seed-descriptions": "knex seed:run --specific=seedDescriptions.js",
-    "parrallel-postgres-seed": "knex seed:run --specific=seedDetails.js & knex seed:run --specific=seedAttributes.js & knex seed:run --specific=seedDirections.js",
-    "postgres-seed": "run-s postgres-seed-description  parrallel-postgres-seed"
+    "postgres-seed-descriptions": "knex seed:run --specific=1seedDescriptions.js",
+    "parrallel-postgres-seed": "knex seed:run --specific=3seedDetails.js & knex seed:run --specific=2seedAttributes.js & knex seed:run --specific=4seedDirections.js",
+    "postgres-seed": "knex seed:run --specific=masterSeed.js"
   },
   "standard": {
     "env": [

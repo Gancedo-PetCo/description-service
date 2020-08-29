@@ -5,7 +5,7 @@ const { copyToTable } = require('../database-postgres/copyToTable.js');
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex('description')
+  return knex('descriptions')
     .del()
     .then(function () {
       return knex.transaction(async (tx) => {
