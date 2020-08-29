@@ -1,12 +1,10 @@
 const faker = require('faker');
 const fs = require('fs');
+const path = require('path');
 const writeAttributes = fs.createWriteStream(
-  './database-postgres-data/attributes.csv'
+  path.join(__dirname, '..', 'database-postgres-data', 'attributes.csv')
 );
-writeAttributes.write(
-  'id, primaryColor, material, length, width, descriptionId\n',
-  'utf8'
-);
+writeAttributes.write('');
 
 function writeTenMillionAttributes(writer, encoding, callback) {
   let i = 50;
@@ -16,11 +14,11 @@ function writeTenMillionAttributes(writer, encoding, callback) {
     do {
       i -= 1;
       id += 1;
-      const primaryColor = faker.commerce.color();
+      const primary_color = faker.commerce.color();
       const material = faker.commerce.productMaterial();
       const length = `${Math.floor(Math.random() * 10)} IN`;
       const width = `${Math.floor(Math.random() * 10)} IN`;
-      const data = `${id},${primaryColor},${material},${length}, ${width},${
+      const data = `${primary_color},${material},${length}, ${width},${
         id + 99
       }\n`;
       if (i === 0) {

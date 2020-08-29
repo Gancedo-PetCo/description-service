@@ -1,12 +1,10 @@
 const faker = require('faker');
 const fs = require('fs');
+const path = require('path');
 const writeDescriptions = fs.createWriteStream(
-  './database-postgres-data/description.csv'
+  path.join(__dirname, '..', 'database-postgres-data', 'description.csv')
 );
-writeDescriptions.write(
-  'id, title, description, SKU, primaryBrand, daysToShip\n',
-  'utf8'
-);
+writeDescriptions.write('');
 
 function writeTenMillionDescriptions(writer, encoding, callback) {
   let i = 50;
@@ -18,14 +16,14 @@ function writeTenMillionDescriptions(writer, encoding, callback) {
       id += 1;
       const title = faker.commerce.productName();
       const description = faker.lorem.sentences();
-      const SKU = Math.floor(Math.random() * 10000000);
-      const primaryBrand = faker.company.companyName();
-      const daysToShip = `Ships In ${Math.floor(
+      const sku = Math.floor(Math.random() * 10000000);
+      const primary_brand = faker.company.companyName();
+      const days_to_ship = `Ships In ${Math.floor(
         Math.random() * 10
       )} Business Days`;
-      const data = `${
+      const data = `"${title}","${description}",${sku},"${primary_brand}", "${days_to_ship}", ${
         id + 99
-      },${title},"${description}",${SKU},"${primaryBrand}", "${daysToShip}"\n`;
+      }\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

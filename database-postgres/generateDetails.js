@@ -1,9 +1,10 @@
 const faker = require('faker');
 const fs = require('fs');
+const path = require('path');
 const writeDetails = fs.createWriteStream(
-  './database-postgres-data/details.csv'
+  path.join(__dirname, '..', 'database-postgres-data', 'details.csv')
 );
-writeDetails.write('id, additionalDetails, descriptionId\n', 'utf8');
+writeDetails.write('');
 
 function writeTenMillionDetails(writer, encoding, callback) {
   let i = 50;
@@ -13,8 +14,8 @@ function writeTenMillionDetails(writer, encoding, callback) {
     do {
       i -= 1;
       id += 1;
-      const additionalDetails = faker.lorem.paragraph();
-      const data = `${id},${additionalDetails},${id + 99}\n`;
+      const additional_details = faker.lorem.paragraph();
+      const data = `${additional_details},${id + 99}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

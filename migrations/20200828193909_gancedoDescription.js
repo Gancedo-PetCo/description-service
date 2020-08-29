@@ -4,27 +4,29 @@ exports.up = function (knex) {
       table.increments('id').primary();
       table.text('title').notNullable();
       table.text('description').notNullable();
-      table.integer('SKU').notNullable();
-      table.string('primaryBrand').notNullable();
-      table.text('daysToShip').notNullable();
+      table.integer('sku').notNullable();
+      table.string('primary_brand').notNullable();
+      table.text('days_to_ship').notNullable();
+      table.integer('description_id');
+      table.unique(['description_id']);
     }),
     knex.schema.createTable('directions', (table) => {
       table.increments('id').primary();
       table.text('directions').notNullable();
-      table.integer('descriptionId').unsigned().references('description.id');
+      table.integer('description_id').unsigned().references('description.description_id');
     }),
     knex.schema.createTable('attributes', (table) => {
       table.increments('id').primary();
-      table.string('primaryColor').notNullable();
+      table.string('primary_color').notNullable();
       table.text('material').notNullable();
       table.string('length').notNullable();
       table.string('width').notNullable();
-      table.integer('descriptionId').unsigned().references('description.id');
+      table.integer('description_id').unsigned().references('description.description_id');
     }),
     knex.schema.createTable('details', (table) => {
       table.increments('id').primary();
       table.text('additionalDetails').notNullable();
-      table.integer('descriptionId').unsigned().references('description.id');
+      table.integer('description_id').unsigned().references('description.description_id');
     }),
   ]);
 };

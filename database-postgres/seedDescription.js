@@ -34,11 +34,11 @@ let csvStream = fastcsv
             if (err) {
               console.log(err.stack);
             } else {
-              console.log('inserted ' + res.rowCount + ' row:', row);
             }
           });
         });
       } finally {
+        console.log('Finished seeding Description!');
         done();
       }
     });

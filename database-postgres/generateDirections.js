@@ -1,9 +1,11 @@
 const faker = require('faker');
 const fs = require('fs');
+const path = require('path');
+
 const writeDirections = fs.createWriteStream(
-  './database-postgres-data/directions.csv'
+  path.join(__dirname, '..', 'database-postgres-data', 'directions.csv')
 );
-writeDirections.write('id, directions, descriptionId\n', 'utf8');
+writeDirections.write('');
 
 function writeTenMillionDirections(writer, encoding, callback) {
   let i = 50;
@@ -14,7 +16,7 @@ function writeTenMillionDirections(writer, encoding, callback) {
       i -= 1;
       id += 1;
       const directions = faker.lorem.paragraph();
-      const data = `${id},"${directions}",${id + 99}\n`;
+      const data = `${directions},${id + 99}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {
