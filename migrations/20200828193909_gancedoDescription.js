@@ -1,6 +1,6 @@
 exports.up = function (knex) {
   return Promise.all([
-    knex.schema.createTable('description', (table) => {
+    knex.schema.createTable('descriptions', (table) => {
       table.increments('id').primary();
       table.text('title').notNullable();
       table.text('description').notNullable();
@@ -13,7 +13,7 @@ exports.up = function (knex) {
     knex.schema.createTable('directions', (table) => {
       table.increments('id').primary();
       table.text('directions').notNullable();
-      table.integer('description_id').unsigned().references('description.description_id');
+      table.integer('description_id').unsigned().references('descriptions.description_id');
     }),
     knex.schema.createTable('attributes', (table) => {
       table.increments('id').primary();
@@ -21,12 +21,12 @@ exports.up = function (knex) {
       table.text('material').notNullable();
       table.string('length').notNullable();
       table.string('width').notNullable();
-      table.integer('description_id').unsigned().references('description.description_id');
+      table.integer('description_id').unsigned().references('descriptions.description_id');
     }),
     knex.schema.createTable('details', (table) => {
       table.increments('id').primary();
       table.text('additional_details').notNullable();
-      table.integer('description_id').unsigned().references('description.description_id');
+      table.integer('description_id').unsigned().references('descriptions.description_id');
     }),
   ]);
 };

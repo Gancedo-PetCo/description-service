@@ -15,7 +15,7 @@ exports.seed = function (knex) {
         try {
           await copyToTable(
             tx,
-            `description (title, description, sku, primary_brand, days_to_ship, description_id)`,
+            `descriptions (title, description, sku, primary_brand, days_to_ship, description_id)`,
             fileStream
           );
         } catch (e) {

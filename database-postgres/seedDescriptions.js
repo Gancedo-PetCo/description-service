@@ -23,7 +23,7 @@ let csvStream = fastcsv
     });
 
     const query =
-      'INSERT INTO description (id, title, description, "SKU", "primaryBrand", "daysToShip") VALUES ($1, $2, $3, $4, $5, $6)';
+      'INSERT INTO descriptions (id, title, description, "SKU", "primaryBrand", "daysToShip") VALUES ($1, $2, $3, $4, $5, $6)';
 
     pool.connect((err, client, done) => {
       if (err) throw err;
