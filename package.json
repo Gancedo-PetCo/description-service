@@ -8,6 +8,7 @@
     "test": "jest --forceExit --detectOpenHandles",
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
+    "testSeedGeneration": "jest './test/dataGeneration.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
     "postgres-generate": "node database-postgres/generateDescription.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js",
