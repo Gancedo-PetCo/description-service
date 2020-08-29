@@ -25,7 +25,7 @@ exports.up = function (knex) {
     }),
     knex.schema.createTable('details', (table) => {
       table.increments('id').primary();
-      table.text('additionalDetails').notNullable();
+      table.text('additional_details').notNullable();
       table.integer('description_id').unsigned().references('description.description_id');
     }),
   ]);
