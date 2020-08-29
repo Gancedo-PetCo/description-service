@@ -5,17 +5,17 @@ const { copyToTable } = require('../database-postgres/copyToTable.js');
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex('description')
+  return knex('details')
     .del()
     .then(function () {
       return knex.transaction(async (tx) => {
         const fileStream = fs.createReadStream(
-          './database-postgres-data/directions.csv'
+          './database-postgres-data/details.csv'
         );
         try {
           await copyToTable(
             tx,
-            `directions (directions, description_id)`,
+            `details (additional_details, description_id)`,
             fileStream
           );
         } catch (e) {
