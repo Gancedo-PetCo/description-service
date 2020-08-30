@@ -8,8 +8,13 @@
     "test": "jest --forceExit --detectOpenHandles",
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
+    "testSeedGeneration": "jest './test/dataGeneration.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
-    "start": "nodemon start.js "
+    "start": "nodemon start.js ",
+    "postgres-generate": "node database-postgres/generateDescriptions.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js",
+    "postgres-seed-descriptions": "knex seed:run --specific=1seedDescriptions.js",
+    "parrallel-postgres-seed": "knex seed:run --specific=3seedDetails.js & knex seed:run --specific=2seedAttributes.js & knex seed:run --specific=4seedDirections.js",
+    "postgres-seed": "knex seed:run --specific=masterSeed.js"
   },
   "standard": {
     "env": [
@@ -62,11 +67,18 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",
+    "fast-csv": "^4.3.1",
     "fetch": "^1.1.0",
+    "i": "^0.3.6",
+    "knex": "^0.21.5",
     "mongoose": "^5.9.19",
     "nock": "^13.0.0",
     "nodemon": "^2.0.4",
+    "npm": "^6.14.8",
+    "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
+    "pg": "^8.3.3",
+    "pg-copy-streams": "^5.1.1",
     "sinon": "^9.0.2"
   }
 }
