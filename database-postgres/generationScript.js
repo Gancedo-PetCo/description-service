@@ -7,7 +7,7 @@ const generateAttributesShape = () => {
   const material = faker.commerce.productMaterial();
   const length = `${Math.floor(Math.random() * 10)} IN`;
   const width = `${Math.floor(Math.random() * 10)} IN`;
-  return `"${primary_color}","${material}", "${length}", "${width}"`
+  return `"${primary_color}", "${material}", "${length}", "${width}"`
 }
 const generateDescriptionsShape = () => {
   const title = faker.commerce.productName();
