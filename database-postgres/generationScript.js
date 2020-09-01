@@ -7,7 +7,7 @@ const generateAttributesShape = () => {
   const material = faker.commerce.productMaterial();
   const length = `${Math.floor(Math.random() * 10)} IN`;
   const width = `${Math.floor(Math.random() * 10)} IN`;
-  return `${primary_color},${material}, ${length}, ${width}`
+  return `"${primary_color}","${material}", "${length}", "${width}"`
 }
 const generateDescriptionsShape = () => {
   const title = faker.commerce.productName();
@@ -15,17 +15,17 @@ const generateDescriptionsShape = () => {
   const sku = Math.floor(Math.random() * 10000000);
   const primary_brand = faker.company.companyName();
   const days_to_ship = `Ships In ${Math.floor(Math.random() * 10)} Business Days`;
-  return `${title}, ${description}, ${sku}, ${primary_brand}, ${days_to_ship}`
+  return `"${title}", "${description}", ${sku}, "${primary_brand}", "${days_to_ship}"`
 }
 
 const generateDetailsShape = () => {
   const additional_details = faker.lorem.paragraph();
-  return `${additional_details}`
+  return `"${additional_details}"`
 }
 
 const generateDirectionsShape = () => {
   const directions = faker.lorem.paragraph();
-  return `${directions}`
+  return `"${directions}"`
 }
 
 const  generateCSVdata = (writer, encoding, recordsToWrite, dataShapingFunction, startingDescriptionIdMinusOne, callback)  => {

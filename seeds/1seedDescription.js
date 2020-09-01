@@ -10,7 +10,7 @@ exports.seed = function (knex) {
     .then(function () {
       return knex.transaction(async (tx) => {
         const fileStream = fs.createReadStream(
-          './database-postgres-data/description.csv'
+          './database-postgres-data/descriptions.csv'
         );
         try {
           await copyToTable(

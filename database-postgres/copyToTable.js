@@ -11,7 +11,7 @@ async function copyToTable(txOrKnex, tableName, readableStream) {
     await pipeline(
       readableStream,
       pgClient.query(
-        copyFrom(`COPY ${tableName}  FROM STDIN WITH (FORMAT csv)`)
+        copyFrom(`COPY ${tableName}  FROM STDIN WITH DELIMITER ',' CSV HEADER`)
       )
     );
   } finally {
