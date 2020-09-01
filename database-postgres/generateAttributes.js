@@ -7,7 +7,7 @@ const writeAttributes = fs.createWriteStream(
 writeAttributes.write('');
 
 function writeTenMillionAttributes(writer, encoding, callback) {
-  let i = 50;
+  let i = 10000000;
   let id = 0;
   function write() {
     let ok = true;
