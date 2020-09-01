@@ -3,3 +3,4 @@ migrations/20200828193909_gancedoDescription.js
 database-postgres/generationScript.js
 *csv
 test-postgres-data-generation/
+test/dataGeneration.test.js

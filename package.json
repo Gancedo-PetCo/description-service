@@ -11,7 +11,7 @@
     "testSeedGeneration": "jest './test/dataGeneration.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
-    "postgres-generate": "node database-postgres/generateDescriptions.js & node database-postgres/generateDetails.js & node database-postgres/generateAttributes.js & node database-postgres/generateDirections.js",
+    "postgres-generate": "node database-postgres/generateSeeds.js",
     "postgres-seed-descriptions": "knex seed:run --specific=1seedDescriptions.js",
     "parrallel-postgres-seed": "knex seed:run --specific=3seedDetails.js & knex seed:run --specific=2seedAttributes.js & knex seed:run --specific=4seedDirections.js",
     "postgres-seed": "knex seed:run --specific=masterSeed.js"
@@ -65,6 +65,7 @@
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "csv-parser": "^2.3.3",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "fast-csv": "^4.3.1",
