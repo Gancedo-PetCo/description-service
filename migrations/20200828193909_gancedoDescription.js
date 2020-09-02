@@ -10,6 +10,7 @@ exports.up = function (knex) {
       table.integer('description_id');
       table.unique(['description_id']);
     }),
+
     knex.schema.createTable('directions', (table) => {
       table.increments('id').primary();
       table.text('directions').notNullable();
