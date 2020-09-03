@@ -2,3 +2,5 @@ node_modules
 client/public/bundle.js
 coverage
 *csv
+database-couchdb-data/data.json
+database-couchdb/test.json
