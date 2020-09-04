@@ -1,45 +1,23 @@
 const faker = require('faker');
 const fs = require('fs');
 const path = require('path');
+const { generateCSVdata } = require('../database-postgres/generationScript.js');
 
 const createNewDescriptionDocument = (itemId) => {
-  var newDoc;
+  const _id = itemId;
+  const title = faker.commerce.productName();
+  const description = faker.lorem.sentences();
+  const SKU = Math.floor(Math.random() * 10000000);
+  const primaryBrand = faker.company.companyName();
+  const daysToShip = `Ships In ${Math.floor(Math.random() * 10)} Business Days`;
+  const directions = faker.lorem.paragraph();
+  const primaryColor = faker.commerce.color();
+  const material = faker.commerce.productMaterial();
+  const length = `${Math.floor(Math.random() * 10)} IN`;
+  const width = `${Math.floor(Math.random() * 10)} IN`;
+  const additionalDetails = `${Math.floor(Math.random() * 10)} IN`;
 
-  newDoc = {
-    _id: `${itemId}`,
-    title: faker.commerce.productName(),
-    description: faker.lorem.sentences(),
-    SKU: Math.floor(Math.random() * 10000000).toString(),
-    primaryBrand: faker.company.companyName(),
-    daysToShip: `Ships In ${Math.floor(Math.random() * 10)} Business Days`,
-    directions: faker.lorem.paragraph(),
-    primaryColor: faker.commerce.color(),
-    material: faker.commerce.productMaterial(),
-    length: `${Math.floor(Math.random() * 10)} IN`,
-    width: `${Math.floor(Math.random() * 10)} IN`,
-    additionalDetails: faker.lorem.paragraph(),
-  };
-
-  return newDoc;
-};
-
-const writeData = fs.createWriteStream(
-  path.join(__dirname, '..', 'database-couchdb-data', 'data.json')
-);
-
-const writeToEnd = () => {
-  fs.appendFile(
-    path.join(__dirname, '..', 'database-couchdb-data', 'data.json'),
-    '\n]}',
-    (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      } else {
-        console.log('appended to the end');
-      }
-    }
-  );
+  return `${_id}, "${title}", "${description}", ${SKU}, "${primaryBrand}", "${daysToShip}","${directions}","${primaryColor}", "${material}","${length}", "${width}", "${additionalDetails}"`;
 };
 
 const generateCouchJSON = (
@@ -47,21 +25,19 @@ const generateCouchJSON = (
   encoding,
   recordsToWrite,
   dataShapingFunction,
-  startingDescriptionId,
+  startingId,
   callback
 ) => {
   let i = recordsToWrite;
-  let id = 10;
+  let id = startingId;
   function write() {
     let ok = true;
     do {
       i -= 1;
       id += 1;
-      const data = `\n${JSON.stringify(dataShapingFunction(id - 1))},`;
+      const data = `${dataShapingFunction(id - 1)}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
-      } else if (id === startingDescriptionId + 1) {
-        writer.write(`{"docs": [${data}`, encoding);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
@@ -77,11 +53,5 @@ const generateCouchJSON = (
   write();
 };
 
-generateCouchJSON(
-  writeData,
-  'utf8',
-  5,
-  createNewDescriptionDocument,
-  10,
-  writeToEnd
-);
+module.exports.generateCouchJSON = generateCouchJSON;
+module.exports.createNewDescriptionDocument = createNewDescriptionDocument;
