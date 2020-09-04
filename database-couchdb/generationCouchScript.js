@@ -15,9 +15,9 @@ const createNewDescriptionDocument = (itemId) => {
   const material = faker.commerce.productMaterial();
   const length = `${Math.floor(Math.random() * 10)} IN`;
   const width = `${Math.floor(Math.random() * 10)} IN`;
-  const additionalDetails = `${Math.floor(Math.random() * 10)} IN`;
+  const additionalDetails = faker.lorem.paragraph();
 
-  return `${_id}, "${title}", "${description}", ${SKU}, "${primaryBrand}", "${daysToShip}","${directions}","${primaryColor}", "${material}","${length}", "${width}", "${additionalDetails}"`;
+  return `${_id},"${title}","${description}",${SKU},"${primaryBrand}","${daysToShip}","${directions}","${primaryColor}","${material}","${length}","${width}","${additionalDetails}"`;
 };
 
 const generateCouchJSON = (

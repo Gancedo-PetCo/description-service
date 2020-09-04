@@ -13,13 +13,13 @@ const writeCouchDocuments = fs.createWriteStream(
 );
 
 writeCouchDocuments.write(
-  '_id,title, description, SKU, primaryBrand, daysToShip,directions,primaryColor, material, length, width, additionalDetails\n',
+  '_id,title,description,SKU,primaryBrand,daysToShip,directions,primaryColor,material,length,width,additionalDetails\n',
   'utf8'
 );
 generateCouchJSON(
   writeCouchDocuments,
   'utf8',
-  100,
+  10000000,
   createNewDescriptionDocument,
   100,
   () => console.log('Done Writing')

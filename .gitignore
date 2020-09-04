@@ -4,3 +4,4 @@ coverage
 *csv
 database-couchdb-data/data.json
 database-couchdb/test.json
+database-couchdb-data/couchDocuments.csv
