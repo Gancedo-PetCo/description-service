@@ -46,9 +46,9 @@ describe('Seeding Script Should generate the correct number of lines', () => {
 
   it('Should generate 4 objects of type string for the generateAttributes function', () => {
     let attributesObject = generateAttributesShape();
-    attributesObject = attributesObject.split('", "');
+    attributesObject = attributesObject.split(', ');
     expect(attributesObject.length).toBe(4);
-    expect(typeof attributesObject[0]).toBe('string');
+    expect(isNaN(attributesObject[0])).toBe(false);
     expect(typeof attributesObject[1]).toBe('string');
     expect(typeof attributesObject[2]).toBe('string');
     expect(typeof attributesObject[3]).toBe('string');

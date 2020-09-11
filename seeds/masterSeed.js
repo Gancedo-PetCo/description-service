@@ -1,14 +1,19 @@
 // var seed = require('seeds/1seedDescription.js');
 const description = require('./1seedDescription.js');
-const attributes = require('./2seedAttributes.js');
-const details = require('./3seedDetails.js');
-const directions = require('./4seedDirections.js');
+const colors = require('./2seedColors.js');
+const attributes = require('./3seedAttributes.js');
+const details = require('./4seedDetails.js');
+const directions = require('./5seedDirections.js');
 
 exports.seed = function (knex, Promise) {
   return description
     .seed(knex, Promise)
     .then(function () {
       return details.seed(knex, Promise);
+    })
+    .then(function () {
+      // next ordered migration...
+      return colors.seed(knex, Promise);
     })
     .then(function () {
       // next ordered migration...

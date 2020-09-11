@@ -9,7 +9,7 @@ const { create } = require('domain');
 
 // Write CouchDB Headers
 const writeCouchDocuments = fs.createWriteStream(
-  path.join(__dirname, '..', 'database-couchdb-data', 'couchDocuments.csv')
+  path.join(__dirname, '..', 'database-couchdb-data', 'couchDocumentsTest.csv')
 );
 
 writeCouchDocuments.write(
@@ -19,7 +19,7 @@ writeCouchDocuments.write(
 generateCouchJSON(
   writeCouchDocuments,
   'utf8',
-  10000000,
+  100,
   createNewDescriptionDocument,
   100,
   () => console.log('Done Writing')

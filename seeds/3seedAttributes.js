@@ -15,7 +15,7 @@ exports.seed = function (knex) {
         try {
           await copyToTable(
             tx,
-            `attributes (primary_color, material, length, width, description_id)`,
+            `attributes (color_id, material, length, width, description_id)`,
             fileStream
           );
         } catch (e) {

@@ -16,9 +16,14 @@ exports.up = function (knex) {
       table.text('directions').notNullable();
       table.integer('description_id').unsigned().references('descriptions.description_id');
     }),
+    knex.schema.createTable('colors', (table) => {
+      table.increments('id').primary();
+      table.text('color_name').notNullable();
+      table.text('hex').notNullable();
+    }),
     knex.schema.createTable('attributes', (table) => {
       table.increments('id').primary();
-      table.string('primary_color').notNullable();
+      table.integer('color_id').unsigned().references('colors.id');;
       table.text('material').notNullable();
       table.string('length').notNullable();
       table.string('width').notNullable();
@@ -36,6 +41,7 @@ exports.down = function (knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('description'),
     knex.schema.dropTable('directions'),
+    knex.schema.dropTable('colors'),
     knex.schema.dropTable('attributes'),
     knex.schema.dropTable('details'),
   ]);

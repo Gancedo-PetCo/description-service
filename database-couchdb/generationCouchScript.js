@@ -1,7 +1,6 @@
 const faker = require('faker');
 const fs = require('fs');
 const path = require('path');
-const { generateCSVdata } = require('../database-postgres/generationScript.js');
 
 const createNewDescriptionDocument = (itemId) => {
   const _id = itemId;
