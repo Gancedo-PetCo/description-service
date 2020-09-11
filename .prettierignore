@@ -5,4 +5,3 @@ database-postgres/generationScript.js
 test-postgres-data-generation/
 test/dataGeneration.test.js
 database-postgres/generateSeeds.js
-seeds/threeSum.js

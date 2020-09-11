@@ -8,6 +8,7 @@ const {
   generateDetailsShape,
   generateDirectionsShape,
 } = require('../database-postgres/generationScript.js');
+const { createNewDescriptionDocument } = require('../database-couchdb/generationCouchScript.js')
 import 'babel-polyfill';
 
 
@@ -66,5 +67,31 @@ describe('Seeding Script Should generate the correct number of lines', () => {
     expect(typeof directions[0]).toBe('string');
   })
 
+  it('Should generate the correct document structure for a couch document', () => {
+    let couchDocument = createNewDescriptionDocument(1);
+    couchDocument = couchDocument.split(',');
+    let id = couchDocument[0];
+    let title = couchDocument[1];
+    let description = couchDocument[2];
+    let SKU = couchDocument[3];
+    let primaryBrand = couchDocument[4];
+    let daysToShip = couchDocument[5];
+    let directions = couchDocument[6];
+    let primaryColor = couchDocument[7];
+    let material = couchDocument[8];
+    let length = couchDocument[9];
+    let width = couchDocument[10];
+    let additionalDetails = couchDocument[11];
+    expect(isNaN(id)).toBe(false);
+    expect(isNaN(title)).toBe(true);
+    expect(isNaN(description)).toBe(true);
+    expect(isNaN(primaryBrand)).toBe(true);
+    expect(isNaN(daysToShip)).toBe(true);
+    expect(isNaN(directions)).toBe(true);
+    expect(isNaN(material)).toBe(true);
+    expect(isNaN(length)).toBe(true);
+    expect(isNaN(width)).toBe(true);
+    expect(isNaN(additionalDetails)).toBe(true);
+  })
 
 });

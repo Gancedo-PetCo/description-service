@@ -52,5 +52,6 @@ const generateCouchJSON = (
   write();
 };
 
+module.exports.createNewDescriptionDocument = createNewDescriptionDocument;
 module.exports.generateCouchJSON = generateCouchJSON;
 module.exports.createNewDescriptionDocument = createNewDescriptionDocument;
