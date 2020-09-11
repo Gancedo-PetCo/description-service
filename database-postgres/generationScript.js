@@ -2,12 +2,16 @@ const faker = require('faker');
 const fs = require('fs');
 const path = require('path');
 
+const generateColorNumber = () => {
+  return Math.floor(Math.random() * 967) + 1;
+}
+
 const generateAttributesShape = () => {
-  const primary_color = faker.commerce.color();
+  const primary_color = generateColorNumber();
   const material = faker.commerce.productMaterial();
   const length = `${Math.floor(Math.random() * 10)} IN`;
   const width = `${Math.floor(Math.random() * 10)} IN`;
-  return `"${primary_color}", "${material}", "${length}", "${width}"`
+  return `${primary_color}, "${material}", "${length}", "${width}"`
 }
 const generateDescriptionsShape = () => {
   const title = faker.commerce.productName();
@@ -17,6 +21,8 @@ const generateDescriptionsShape = () => {
   const days_to_ship = `Ships In ${Math.floor(Math.random() * 10)} Business Days`;
   return `"${title}", "${description}", ${sku}, "${primary_brand}", "${days_to_ship}"`
 }
+
+
 
 const generateDetailsShape = () => {
   const additional_details = faker.lorem.paragraph();

@@ -19,7 +19,7 @@ writeDescriptions.write(
   'utf8'
 );
 // Generate Descriptions Data
-generateCSVdata(writeDescriptions, 'utf8', 100, generateDescriptionsShape, 99);
+generateCSVdata(writeDescriptions, 'utf8', 10000000, generateDescriptionsShape, 99, () => console.log('Done generating Descriptions'));
 
 ///////
 
@@ -33,7 +33,7 @@ writeAttributes.write(
   'utf-8'
 );
 // Generate Attributes Data
-generateCSVdata(writeAttributes, 'utf8', 100, generateAttributesShape, 99);
+generateCSVdata(writeAttributes, 'utf8', 10000000, generateAttributesShape, 99, () => console.log('Done generating Attribtues'));
 
 ////////
 
@@ -44,7 +44,7 @@ const writeDirections = fs.createWriteStream(
 // Write Directions Headers
 writeDirections.write('directions, description_id\n', 'utf8');
 // Generate Directions Data
-generateCSVdata(writeDirections, 'utf8', 100, generateDirectionsShape, 99);
+generateCSVdata(writeDirections, 'utf8', 10000000, generateDirectionsShape, 99, () => console.log('Done generating Directions'));
 
 ////////
 
@@ -55,4 +55,4 @@ const writeDetails = fs.createWriteStream(
 // Write Details Headers
 writeDetails.write('additional_details, description_id\n', 'utf8');
 // Generate Details Data
-generateCSVdata(writeDetails, 'utf8', 100, generateDetailsShape, 99);
+generateCSVdata(writeDetails, 'utf8', 10000000, generateDetailsShape, 99, () => console.log('Done generating Details'));
