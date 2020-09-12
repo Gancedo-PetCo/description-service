@@ -136,17 +136,15 @@ app.put('/descriptionObject/:itemId', (req, res) => {
   const itemToChange = req.params.itemId;
   const key = Object.keys(req.body)[0];
   const value = Object.values(req.body)[0];
-  db.Description.updateOne({ itemId: itemToChange }, { [key]: value })
+  postgres
+    .updateSpecifiedTableRow(itemToChange, key, value)
     .then((response) => {
-      console.log('Here is the response', response);
-      console.log('Updated');
-      res
-        .status(200)
-        .send(
-          `Document with id ${itemToChange} was updated at key ${key} with value ${value}`
-        );
+      res.status(200).send('Data is updated to reflect your desires!');
     })
-    .catch((error) => console.log('Error updating', error));
+    .catch((error) => {
+      res.status(404).send(error);
+      console.log('Error updating', error);
+    });
 });
 
 module.exports = app;

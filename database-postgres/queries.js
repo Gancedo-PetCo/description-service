@@ -1,12 +1,57 @@
 const knex = require('./index');
 
-function getAll() {
-  knex
-    .postgresDB('descriptions')
-    .where('id', 1)
-    .then((description) => {
-      console.log(description);
-    });
+function updateSpecifiedTableRow(
+  idToSearch,
+  targetColumn,
+  newDataToBeInserted
+) {
+  const validQueries = {
+    description: 'descriptions',
+    title: 'descriptions',
+    sku: 'descriptions',
+    primary_brand: 'descriptions',
+    days_to_ship: 'descriptions',
+    color_id: 'attributes',
+    material: 'attributes',
+    length: 'attributes',
+    width: 'attributes',
+    directions: 'directions',
+    additional_details: 'directions',
+  };
+  // Validate that the table exists
+  if (!validQueries[targetColumn]) {
+    return Promise.reject(`${targetColumn} column does not exist`);
+  }
+  // validate that if the column is sku that the input is a number
+  // and 1,000,000 - 9,000.000
+  if (targetColumn === 'sku') {
+    if (isNaN(newDataToBeInserted) === true) {
+      return Promise.reject(
+        `Invalid data type trying to be inserted into ${targetColumn}`
+      );
+    }
+    if (newDataToBeInserted.length !== 7) {
+      return Promise.reject(
+        `Invalid data type trying to be inserted into ${targetColumn}`
+      );
+    }
+  }
+  // validate that the color falls within 1 - 967 (the acceptable colors)
+  if (targetColumn === 'color_id') {
+    if (isNaN(newDataToBeInserted) === true) {
+      return Promise.reject(
+        `Invalid data type trying to be inserted into ${targetColumn}`
+      );
+    }
+    if (Number(newDataToBeInserted) < 0 || Number(newDataToBeInserted) > 967) {
+      return Promise.reject(`Invalid range given for the ${targetColumn}`);
+    }
+  }
+
+  return knex
+    .postgresDB(validQueries[targetColumn])
+    .where({ description_id: idToSearch })
+    .update(targetColumn, newDataToBeInserted);
 }
 
 function getDataForSpecifiedId(idToSearch) {
@@ -64,7 +109,6 @@ function getDataForSpecifiedId(idToSearch) {
       return formattedData;
     });
 }
-// getAll();
-getDataForSpecifiedId(100);
 
 module.exports.getDataForSpecifiedId = getDataForSpecifiedId;
+module.exports.updateSpecifiedTableRow = updateSpecifiedTableRow;
