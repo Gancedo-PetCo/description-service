@@ -1,4 +1,61 @@
 const knex = require('./index');
+const {
+  generateDescriptionsShape,
+  generateAttributesShape,
+  generateDetailsShape,
+  generateDirectionsShape,
+} = require('./generationScript');
+
+function createNewRecord() {
+  let descriptionData = generateDescriptionsShape();
+  let attributesData = generateAttributesShape();
+  let detailsData = generateDetailsShape();
+  let directionsData = generateDirectionsShape();
+  let descriptionIdToBeInserted;
+  return knex.postgresDB
+    .raw(
+      `
+      INSERT INTO descriptions  (title, description, sku, primary_brand, days_to_ship)
+      VALUES (${descriptionData})
+  RETURNING id
+  `
+    )
+    .then((response) => {
+      let currentId = Number(response.rows[0].id);
+      console.log('Here is the currentId', currentId);
+      let nextDescriptionId = Number(response.rows[0].id) + 99;
+      return knex.postgresDB
+        .raw(
+          `UPDATE descriptions
+        SET description_id = ${nextDescriptionId}
+        WHERE id = ${currentId}
+        RETURNING description_id`
+        )
+        .then((response) => {
+          descriptionIdToBeInserted = Number(
+            response.rows[0]['description_id']
+          );
+          console.log('Next id', descriptionIdToBeInserted);
+          return knex.postgresDB
+            .raw(
+              `
+            INSERT INTO attributes (color_id, material, length, width, description_id)
+            VALUES (${attributesData}, ${descriptionIdToBeInserted})
+          `
+            )
+            .then((response) => {
+              console.log('Inserted into attributes!');
+              return knex.postgresDB.raw(
+                `
+              INSERT INTO directions (directions, description_id)
+              VALUES (${directionsData}, ${descriptionIdToBeInserted})
+            `
+              );
+            });
+        });
+    });
+}
+// function createNewRecords() {}
 
 function updateSpecifiedTableRow(
   idToSearch,
@@ -112,3 +169,4 @@ function getDataForSpecifiedId(idToSearch) {
 
 module.exports.getDataForSpecifiedId = getDataForSpecifiedId;
 module.exports.updateSpecifiedTableRow = updateSpecifiedTableRow;
+module.exports.createNewRecord = createNewRecord;
