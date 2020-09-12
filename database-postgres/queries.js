@@ -10,7 +10,7 @@ function getAll() {
 }
 
 function getDataForSpecifiedId(idToSearch) {
-  knex.postgresDB
+  return knex.postgresDB
     .raw(
       `SELECT
     descriptions.title,
@@ -61,7 +61,6 @@ function getDataForSpecifiedId(idToSearch) {
           additionalDetails: rowData.additional_details,
         },
       };
-      console.log('Here is the data', formattedData);
       return formattedData;
     });
 }

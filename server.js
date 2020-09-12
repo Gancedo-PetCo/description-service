@@ -4,6 +4,7 @@ const db = require('./database-mongodb/index.js');
 const bodyParser = require('body-parser');
 const { send } = require('process');
 const app = express();
+const postgres = require('./database-postgres/queries');
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -95,33 +96,9 @@ app.get('/itemInformation/:itemId', (req, res) => {
 //get full description object for an item
 app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-
-  db.getDescriptionObject(itemId)
-    .then((data) => {
-      console.log('success getting descriptionObj');
-
-      var formattedData = {
-        description: {
-          title: data[0].title,
-          description: data[0].description,
-          SKU: data[0].SKU,
-          primaryBrand: data[0].primaryBrand,
-          daysToShip: data[0].daysToShip,
-        },
-        directions: {
-          directions: data[0].directions,
-        },
-        attributes: {
-          primaryColor: data[0].primaryColor,
-          material: data[0].material,
-          length: data[0].length,
-          width: data[0].width,
-        },
-        details: {
-          additionalDetails: data[0].additionalDetails,
-        },
-      };
-
+  postgres
+    .getDataForSpecifiedId(itemId)
+    .then((formattedData) => {
       res.send(formattedData);
     })
     .catch((err) => {
