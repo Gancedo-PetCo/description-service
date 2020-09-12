@@ -35,7 +35,7 @@ function createNewRecord() {
           descriptionIdToBeInserted = Number(
             response.rows[0]['description_id']
           );
-          console.log('Next id', descriptionIdToBeInserted);
+          console.log('description id', descriptionIdToBeInserted);
           return knex.postgresDB
             .raw(
               `
@@ -45,17 +45,25 @@ function createNewRecord() {
             )
             .then((response) => {
               console.log('Inserted into attributes!');
-              return knex.postgresDB.raw(
-                `
+              return knex.postgresDB
+                .raw(
+                  `
               INSERT INTO directions (directions, description_id)
               VALUES (${directionsData}, ${descriptionIdToBeInserted})
             `
-              );
+                )
+                .then((response) => {
+                  return knex.postgresDB.raw(
+                    `
+                INSERT INTO details (additional_details, description_id)
+                VALUES (${detailsData}, ${descriptionIdToBeInserted})
+              `
+                  );
+                });
             });
         });
     });
 }
-// function createNewRecords() {}
 
 function updateSpecifiedTableRow(
   idToSearch,
