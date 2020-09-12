@@ -108,28 +108,27 @@ app.get('/descriptionObject/:itemId', (req, res) => {
 });
 
 app.post('/descriptionObject', (req, res) => {
-  db.getNextId()
+  postgres
+    .createNewRecord()
     .then((response) => {
-      return response[0].itemId;
-    })
-    .then((currentId) => {
-      db.createNewDescriptionDocument(currentId + 1).then((response) => {
-        console.log('Document created with itemId', currentId + 1);
-        console.log('Next id to be added:', currentId + 2);
-        res
-          .status(200)
-          .send(`Document with id ${currentId + 1} Added to the db`);
-      });
+      console.log('Record created');
+      res.status(200).send(`Document was created`);
     })
     .catch((error) => console.log('Error in getting the next id', error));
 });
 
 app.delete('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-  db.deleteDescriptionDocument(itemId).then((response) => {
-    console.log('Deleted object with itemId: ', itemId);
-    res.status(200).send(`Document with id ${itemId} deleted from the db`);
-  });
+  postgres
+    .deleteRow(itemId)
+    .then((response) => {
+      console.log('Item Deleted');
+      res.status(200).send(`Row was succesfully deleted`);
+    })
+    .catch((error) => {
+      res.status(404).send(error);
+      console.log('Error in deletion', error);
+    });
 });
 
 app.put('/descriptionObject/:itemId', (req, res) => {

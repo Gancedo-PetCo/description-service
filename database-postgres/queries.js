@@ -175,9 +175,9 @@ function getDataForSpecifiedId(idToSearch) {
     });
 }
 
-function DeleteRow(idToSearch) {
+function deleteRow(idToSearch) {
   return knex
-    .postgresDB('description')
+    .postgresDB('descriptions')
     .where('description_id', idToSearch)
     .del();
 }
@@ -185,3 +185,4 @@ function DeleteRow(idToSearch) {
 module.exports.getDataForSpecifiedId = getDataForSpecifiedId;
 module.exports.updateSpecifiedTableRow = updateSpecifiedTableRow;
 module.exports.createNewRecord = createNewRecord;
+module.exports.deleteRow = deleteRow;
