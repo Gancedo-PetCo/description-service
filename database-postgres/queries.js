@@ -175,6 +175,13 @@ function getDataForSpecifiedId(idToSearch) {
     });
 }
 
+function DeleteRow(idToSearch) {
+  return knex
+    .postgresDB('description')
+    .where('description_id', idToSearch)
+    .del();
+}
+
 module.exports.getDataForSpecifiedId = getDataForSpecifiedId;
 module.exports.updateSpecifiedTableRow = updateSpecifiedTableRow;
 module.exports.createNewRecord = createNewRecord;
