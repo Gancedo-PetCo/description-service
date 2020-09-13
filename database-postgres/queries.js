@@ -150,7 +150,7 @@ function getDataForSpecifiedId(idToSearch) {
     )
     .then((description) => {
       const rowData = description.rows[0];
-      var formattedData = {
+      const formattedData = {
         description: {
           title: rowData.title,
           description: rowData.description,
@@ -182,7 +182,46 @@ function deleteRow(idToSearch) {
     .del();
 }
 
+function getOneTitleAndDescription(idToSearch) {
+  return knex.postgresDB
+    .raw(
+      `SELECT descriptions.primary_brand, descriptions.title
+        FROM descriptions where description_id = ${idToSearch};
+      ;
+    `
+    )
+    .then((description) => {
+      const formattedData = {
+        title: description.rows[0].title,
+        primaryBrand: description.rows[0]['primary_brand'],
+      };
+      return formattedData;
+    });
+}
+
+function getMultipleTitlesAndDecsriptions(...idsToSearch) {
+  let idsToSearchInArrayForm = [...idsToSearch];
+  let promisifiedCalls = idsToSearchInArrayForm.map((currentIdToBeSearch) => {
+    return knex.postgresDB.raw(`
+    SELECT descriptions.primary_brand, descriptions.title
+        FROM descriptions where description_id = ${currentIdToBeSearch};
+      ;
+    `);
+  });
+  return Promise.all(promisifiedCalls).then((results) => {
+    let items = results.map((item) => {
+      return {
+        title: item.rows[0].title,
+        primaryBrand: item.rows[0]['primary_brand'],
+      };
+    });
+    return items;
+  });
+}
+
 module.exports.getDataForSpecifiedId = getDataForSpecifiedId;
 module.exports.updateSpecifiedTableRow = updateSpecifiedTableRow;
 module.exports.createNewRecord = createNewRecord;
 module.exports.deleteRow = deleteRow;
+module.exports.getOneTitleAndDescription = getOneTitleAndDescription;
+module.exports.getMultipleTitlesAndDecsriptions = getMultipleTitlesAndDecsriptions;
