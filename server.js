@@ -57,38 +57,27 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
   if (itemId.includes('array')) {
     const itemsInArray = itemId.substring(5);
-    const itemIds = itemsInArray.split(',');
-    const invalidId = false;
-
-    for (var i = 0; i < itemIds.length; i++) {
-      if (itemIds[i] < 100 || itemIds[i] > 199) {
-        res.status(404).send('Invalid itemId');
-        invalidId = true;
-        break;
-      }
-    }
-
-    if (!invalidId) {
-      db.getTitlesAndBrands(itemIds)
-        .then((data) => {
-          res.send(data);
-        })
-        .catch((err) => {
-          res.status(404).send('error in getTitlesAndBrands: ', err);
-        });
-    }
-  } else if (itemId < 100 || itemId > 199) {
-    console.log(itemId);
-    res.status(404).send('Invalid itemId');
-  } else {
-    db.getTitleAndBrand(itemId)
+    const itemIds = itemsInArray.split(',').map((id) => Number(id));
+    postgres
+      .getMultipleTitlesAndDecsriptions(...itemIds)
       .then((data) => {
-        console.log('success getting title and brand');
-        res.send(data[0]);
+        res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(500).send(err);
-        console.log('error in getTitleAndBrand: ', err);
+        res
+          .status(404)
+          .send(
+            'One of the ids submitted was invalid or the input request was formatted imporperly!'
+          );
+      });
+  } else {
+    postgres
+      .getOneTitleAndDescription(Number(itemId))
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((err) => {
+        res.status(404).send('The id searched for was invalid!');
       });
   }
 });
