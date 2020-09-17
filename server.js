@@ -4,6 +4,7 @@ const db = require('./database-mongodb/index.js');
 const bodyParser = require('body-parser');
 const { send } = require('process');
 const app = express();
+const postgres = require('./database-postgres/queries');
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -56,38 +57,27 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
   if (itemId.includes('array')) {
     const itemsInArray = itemId.substring(5);
-    const itemIds = itemsInArray.split(',');
-    const invalidId = false;
-
-    for (var i = 0; i < itemIds.length; i++) {
-      if (itemIds[i] < 100 || itemIds[i] > 199) {
-        res.status(404).send('Invalid itemId');
-        invalidId = true;
-        break;
-      }
-    }
-
-    if (!invalidId) {
-      db.getTitlesAndBrands(itemIds)
-        .then((data) => {
-          res.send(data);
-        })
-        .catch((err) => {
-          res.status(404).send('error in getTitlesAndBrands: ', err);
-        });
-    }
-  } else if (itemId < 100 || itemId > 199) {
-    console.log(itemId);
-    res.status(404).send('Invalid itemId');
-  } else {
-    db.getTitleAndBrand(itemId)
+    const itemIds = itemsInArray.split(',').map((id) => Number(id));
+    postgres
+      .getMultipleTitlesAndDecsriptions(...itemIds)
       .then((data) => {
-        console.log('success getting title and brand');
-        res.send(data[0]);
+        res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(500).send(err);
-        console.log('error in getTitleAndBrand: ', err);
+        res
+          .status(404)
+          .send(
+            'One of the ids submitted was invalid or the input request was formatted imporperly!'
+          );
+      });
+  } else {
+    postgres
+      .getOneTitleAndDescription(Number(itemId))
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((err) => {
+        res.status(404).send('The id searched for was invalid!');
       });
   }
 });
@@ -95,34 +85,10 @@ app.get('/itemInformation/:itemId', (req, res) => {
 //get full description object for an item
 app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-
-  db.getDescriptionObject(itemId)
-    .then((data) => {
-      console.log('success getting descriptionObj');
-
-      var formattedData = {
-        description: {
-          title: data[0].title,
-          description: data[0].description,
-          SKU: data[0].SKU,
-          primaryBrand: data[0].primaryBrand,
-          daysToShip: data[0].daysToShip,
-        },
-        directions: {
-          directions: data[0].directions,
-        },
-        attributes: {
-          primaryColor: data[0].primaryColor,
-          material: data[0].material,
-          length: data[0].length,
-          width: data[0].width,
-        },
-        details: {
-          additionalDetails: data[0].additionalDetails,
-        },
-      };
-
-      res.send(formattedData);
+  postgres
+    .getDataForSpecifiedId(itemId)
+    .then((formattedData) => {
+      res.status(200).send(formattedData);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -131,45 +97,42 @@ app.get('/descriptionObject/:itemId', (req, res) => {
 });
 
 app.post('/descriptionObject', (req, res) => {
-  db.getNextId()
+  postgres
+    .createNewRecord()
     .then((response) => {
-      return response[0].itemId;
-    })
-    .then((currentId) => {
-      db.createNewDescriptionDocument(currentId + 1).then((response) => {
-        console.log('Document created with itemId', currentId + 1);
-        console.log('Next id to be added:', currentId + 2);
-        res
-          .status(200)
-          .send(`Document with id ${currentId + 1} Added to the db`);
-      });
+      console.log('Record created');
+      res.status(200).send(`Document was created`);
     })
     .catch((error) => console.log('Error in getting the next id', error));
 });
 
 app.delete('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-  db.deleteDescriptionDocument(itemId).then((response) => {
-    console.log('Deleted object with itemId: ', itemId);
-    res.status(200).send(`Document with id ${itemId} deleted from the db`);
-  });
+  postgres
+    .deleteRow(itemId)
+    .then((response) => {
+      console.log('Item Deleted');
+      res.status(200).send(`Row was succesfully deleted`);
+    })
+    .catch((error) => {
+      res.status(404).send(error);
+      console.log('Error in deletion', error);
+    });
 });
 
 app.put('/descriptionObject/:itemId', (req, res) => {
   const itemToChange = req.params.itemId;
   const key = Object.keys(req.body)[0];
   const value = Object.values(req.body)[0];
-  db.Description.updateOne({ itemId: itemToChange }, { [key]: value })
+  postgres
+    .updateSpecifiedTableRow(itemToChange, key, value)
     .then((response) => {
-      console.log('Here is the response', response);
-      console.log('Updated');
-      res
-        .status(200)
-        .send(
-          `Document with id ${itemToChange} was updated at key ${key} with value ${value}`
-        );
+      res.status(200).send('Data is updated to reflect your desires!');
     })
-    .catch((error) => console.log('Error updating', error));
+    .catch((error) => {
+      res.status(404).send(error);
+      console.log('Error updating', error);
+    });
 });
 
 module.exports = app;
