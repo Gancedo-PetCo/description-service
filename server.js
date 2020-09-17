@@ -88,7 +88,7 @@ app.get('/descriptionObject/:itemId', (req, res) => {
   postgres
     .getDataForSpecifiedId(itemId)
     .then((formattedData) => {
-      res.send(formattedData);
+      res.status(200).send(formattedData);
     })
     .catch((err) => {
       res.status(500).send(err);
