@@ -12,6 +12,10 @@ const postgres = require('./database-postgres/queries');
 const port_redis = process.env.PORT || 6379;
 const redis_client = redis.createClient(port_redis);
 
+redis_client.on('error', (err) => {
+  console.log('Error ' + err);
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -91,15 +95,33 @@ app.get('/itemInformation/:itemId', (req, res) => {
 //get full description object for an item
 app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-  postgres
-    .getDataForSpecifiedId(itemId)
-    .then((formattedData) => {
-      res.status(200).send(formattedData);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-      console.log('error in getDescriptionObject: ', err);
-    });
+
+  return redis_client.get(
+    `descriptionObject${itemId}`,
+    (err, descriptionObject) => {
+      // check if the object is present in redis already
+      if (descriptionObject) {
+        return res.status(200).send(JSON.parse(descriptionObject));
+      }
+      //
+      else {
+        postgres
+          .getDataForSpecifiedId(itemId)
+          .then((formattedData) => {
+            redis_client.setex(
+              `descriptionObject${itemId}`,
+              86400,
+              JSON.stringify(formattedData)
+            );
+            res.status(200).send(formattedData);
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+            console.log('error in getDescriptionObject: ', err);
+          });
+      }
+    }
+  );
 });
 
 app.post('/descriptionObject', (req, res) => {
