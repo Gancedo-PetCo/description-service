@@ -1,3 +1,5 @@
+const newrelic = require('newrelic');
+const redis = require('redis');
 const express = require('express');
 const path = require('path');
 const db = require('./database-mongodb/index.js');
@@ -6,6 +8,10 @@ const { send } = require('process');
 const app = express();
 const postgres = require('./database-postgres/queries');
 //crossorigin permission for 3000, 3004, 3005 and 3006
+
+const port_redis = process.env.PORT || 6379;
+const redis_client = redis.createClient(port_redis);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -100,10 +106,11 @@ app.post('/descriptionObject', (req, res) => {
   postgres
     .createNewRecord()
     .then((response) => {
-      console.log('Record created');
       res.status(200).send(`Document was created`);
     })
-    .catch((error) => console.log('Error in getting the next id', error));
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 app.delete('/descriptionObject/:itemId', (req, res) => {
@@ -119,7 +126,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
       console.log('Error in deletion', error);
     });
 });
-
+// VCHAMGEW
 app.put('/descriptionObject/:itemId', (req, res) => {
   const itemToChange = req.params.itemId;
   const key = Object.keys(req.body)[0];

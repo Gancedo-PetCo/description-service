@@ -22,7 +22,6 @@ function createNewRecord() {
     )
     .then((response) => {
       let currentId = Number(response.rows[0].id);
-      console.log('Here is the currentId', currentId);
       let nextDescriptionId = Number(response.rows[0].id) + 99;
       return knex.postgresDB
         .raw(
@@ -35,7 +34,6 @@ function createNewRecord() {
           descriptionIdToBeInserted = Number(
             response.rows[0]['description_id']
           );
-          console.log('description id', descriptionIdToBeInserted);
           return knex.postgresDB
             .raw(
               `
@@ -44,7 +42,6 @@ function createNewRecord() {
           `
             )
             .then((response) => {
-              console.log('Inserted into attributes!');
               return knex.postgresDB
                 .raw(
                   `
