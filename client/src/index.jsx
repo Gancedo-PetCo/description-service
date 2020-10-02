@@ -24,39 +24,11 @@ class DescriptionService extends React.Component {
 
   //Development componentDidMount. Hardcoded to item 100
 
-  componentDidMount() {
-    axios
-      .get('http://127.0.0.1:3002/descriptionObject/101')
-      .then((data) => {
-        console.log('success getting data in componentDidMount: ', data);
-        this.setState({
-          current: 'descriptionB',
-          data: data.data,
-        });
-        console.log('state: ', this.state);
-      })
-      .catch((err) => {
-        console.log('error getting descObj in componentDidMount: ', err);
-      });
-  }
-
-  //Proxy componentDidMount
   // componentDidMount() {
-  //   const item = window.location.href.split('=')[1];
-
-  //   //local address
-  //   const address = 'http://127.0.0.1';
-
-  //   //deployed address
-  //   // const address = 'http://52.14.208.55';
-
   //   axios
-  //     .get(`${address}:3002/descriptionObject/${item}`)
+  //     .get('http://127.0.0.1:3002/descriptionObject/101')
   //     .then((data) => {
-  //       console.log('success getting data in componentDidMount');
-  //       var bullets = data.data.description.description.split('. ');
-  //       data.data.description.description = bullets;
-
+  //       console.log('success getting data in componentDidMount: ', data);
   //       this.setState({
   //         current: 'descriptionB',
   //         data: data.data,
@@ -67,6 +39,34 @@ class DescriptionService extends React.Component {
   //       console.log('error getting descObj in componentDidMount: ', err);
   //     });
   // }
+
+  //Proxy componentDidMount
+  componentDidMount() {
+    const item = window.location.href.split('=')[1];
+
+    //local address
+    const address = 'http://127.0.0.1';
+
+    //deployed address
+    // const address = 'http://52.14.208.55';
+
+    axios
+      .get(`${address}:3002/descriptionObject/${item}`)
+      .then((data) => {
+        console.log('success getting data in componentDidMount');
+        // var bullets = data.data.description.description.split('. ');
+        // data.data.description.description = bullets;
+
+        this.setState({
+          current: 'descriptionB',
+          data: data.data,
+        });
+        console.log('state: ', this.state);
+      })
+      .catch((err) => {
+        console.log('error getting descObj in componentDidMount: ', err);
+      });
+  }
 
   changeModule(e) {
     var newState = e.target.id;
