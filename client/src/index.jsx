@@ -26,7 +26,7 @@ class DescriptionService extends React.Component {
 
   componentDidMount() {
     axios
-      .get('/descriptionObject/100')
+      .get('http://127.0.0.1:3002/descriptionObject/101')
       .then((data) => {
         console.log('success getting data in componentDidMount: ', data);
         this.setState({

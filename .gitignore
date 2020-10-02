@@ -7,3 +7,7 @@ database-couchdb/test.json
 database-couchdb-data/couchDocuments.csv
 database-couchdb-data/couchDocumentsTest.csv
 !database-postgres-data/colors.csv
+newrelic.js
+.env
+newrelic_agent.log
+dump.rdb

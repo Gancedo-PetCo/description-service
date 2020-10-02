@@ -1,43 +1,55 @@
+const newrelic = require('newrelic');
+const redis = require('redis');
 const express = require('express');
 const path = require('path');
 const db = require('./database-mongodb/index.js');
 const bodyParser = require('body-parser');
 const { send } = require('process');
+const cors = require('cors');
 const app = express();
 const postgres = require('./database-postgres/queries');
 //crossorigin permission for 3000, 3004, 3005 and 3006
+
+const port_redis = process.env.PORT || 6379;
+const redis_client = redis.createClient(port_redis);
+
+redis_client.on('error', (err) => {
+  console.log('Error ' + err);
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
-app.use((req, res, next) => {
-  //local address
-  const address = 'http://127.0.0.1';
-  const address2 = 'http://127.0.0.1';
-  const address3 = 'http://127.0.0.1';
+// app.use((req, res, next) => {
+//   //local address
+//   const address = 'http://127.0.0.1';
+//   const address2 = 'http://127.0.0.1';
+//   const address3 = 'http://127.0.0.1';
 
-  //deployed address
-  // var address = 'http://52.14.208.55'; //me
-  // var address2 = 'http://54.183.137.155'; // nick
-  // var address3 = 'http://18.224.229.28'; // kate
+//   //deployed address
+//   // var address = 'http://52.14.208.55'; //me
+//   // var address2 = 'http://54.183.137.155'; // nick
+//   // var address3 = 'http://18.224.229.28'; // kate
 
-  const { referer } = req.headers;
-  if (referer) {
-    if (req.headers.referer.includes(`${address2}:3004`)) {
-      res.header('Access-Control-Allow-Origin', `${address2}:3004`); //recommended
-    } else if (req.headers.referer.includes('3005')) {
-      res.header('Access-Control-Allow-Origin', `${address}:3005`); //title/price
-    } else if (req.headers.referer.includes(`${address3}:3006`)) {
-      res.header('Access-Control-Allow-Origin', `${address3}:3006`); //deliver
-    } else if (req.headers.referer.includes(`${address}:3000`)) {
-      res.header('Access-Control-Allow-Origin', `${address}:3000`); //my proxy
-    } else if (req.headers.referer.includes(`${address2}:3000`)) {
-      res.header('Access-Control-Allow-Origin', `${address2}:3000`); //nick's proxy
-    } else if (req.headers.referer.includes(`${address3}:3000`)) {
-      res.header('Access-Control-Allow-Origin', `${address3}:3000`); //kate's proxy
-    }
-  }
-  next();
-});
+//   const { referer } = req.headers;
+//   if (referer) {
+//     if (req.headers.referer.includes(`${address2}:3004`)) {
+//       res.header('Access-Control-Allow-Origin', `${address2}:3004`); //recommended
+//     } else if (req.headers.referer.includes('3005')) {
+//       res.header('Access-Control-Allow-Origin', `${address}:3005`); //title/price
+//     } else if (req.headers.referer.includes(`${address3}:3006`)) {
+//       res.header('Access-Control-Allow-Origin', `${address3}:3006`); //deliver
+//     } else if (req.headers.referer.includes(`${address}:3000`)) {
+//       res.header('Access-Control-Allow-Origin', `${address}:3000`); //my proxy
+//     } else if (req.headers.referer.includes(`${address2}:3000`)) {
+//       res.header('Access-Control-Allow-Origin', `${address2}:3000`); //nick's proxy
+//     } else if (req.headers.referer.includes(`${address3}:3000`)) {
+//       res.header('Access-Control-Allow-Origin', `${address3}:3000`); //kate's proxy
+//     }
+//   }
+//   next();
+// });
 
 //gzip
 app.get('*.js', function (req, res, next) {
@@ -85,25 +97,44 @@ app.get('/itemInformation/:itemId', (req, res) => {
 //get full description object for an item
 app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-  postgres
-    .getDataForSpecifiedId(itemId)
-    .then((formattedData) => {
-      res.status(200).send(formattedData);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-      console.log('error in getDescriptionObject: ', err);
-    });
+
+  return redis_client.get(
+    `descriptionObject${itemId}`,
+    (err, descriptionObject) => {
+      // check if the object is present in redis already
+      if (descriptionObject) {
+        return res.status(200).send(JSON.parse(descriptionObject));
+      }
+      //
+      else {
+        postgres
+          .getDataForSpecifiedId(itemId)
+          .then((formattedData) => {
+            redis_client.setex(
+              `descriptionObject${itemId}`,
+              86400,
+              JSON.stringify(formattedData)
+            );
+            res.status(200).send(formattedData);
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+            console.log('error in getDescriptionObject: ', err);
+          });
+      }
+    }
+  );
 });
 
 app.post('/descriptionObject', (req, res) => {
   postgres
     .createNewRecord()
     .then((response) => {
-      console.log('Record created');
       res.status(200).send(`Document was created`);
     })
-    .catch((error) => console.log('Error in getting the next id', error));
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 app.delete('/descriptionObject/:itemId', (req, res) => {
@@ -119,7 +150,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
       console.log('Error in deletion', error);
     });
 });
-
+// VCHAMGEW
 app.put('/descriptionObject/:itemId', (req, res) => {
   const itemToChange = req.params.itemId;
   const key = Object.keys(req.body)[0];
