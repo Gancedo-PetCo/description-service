@@ -51,7 +51,7 @@ class DescriptionService extends React.Component {
     // const address = 'http://52.14.208.55';
 
     axios
-      .get(`${address}:3006/descriptionObject/${item}`)
+      .get(`${address}:3002/descriptionObject/${item}`)
       .then((data) => {
         console.log('success getting data in componentDidMount');
         // var bullets = data.data.description.description.split('. ');
