@@ -1,3 +1,3 @@
 import DescriptionService from './index.jsx';
-
-ReactDOM.render(<DescriptionService />, document.getElementById('description'));
+import SSR from './ssrComp.jsx';
+ReactDOM.hydrate(<SSR />, document.getElementById('description'));
