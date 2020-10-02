@@ -61,7 +61,7 @@ class DescriptionService extends React.Component {
           current: 'descriptionB',
           data: data.data,
         });
-        console.log('state: ', this.state);
+        // console.log('state: ', this.state);
       })
       .catch((err) => {
         console.log('error getting descObj in componentDidMount: ', err);
