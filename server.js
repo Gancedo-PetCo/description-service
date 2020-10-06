@@ -1,8 +1,8 @@
-const newrelic = require('newrelic');
+// const newrelic = require('newrelic');
 const redis = require('redis');
 const express = require('express');
 const path = require('path');
-const db = require('./database-mongodb/index.js');
+// const db = require('./database-mongodb/index.js');
 const bodyParser = require('body-parser');
 const { send } = require('process');
 const cors = require('cors');
