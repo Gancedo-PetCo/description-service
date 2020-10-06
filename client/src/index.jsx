@@ -45,8 +45,8 @@ class DescriptionService extends React.Component {
     const item = window.location.href.split('=')[1];
 
     //local address
-    const address = 'http://127.0.0.1';
-
+    // const address = 'http://127.0.0.1';
+    const address = 'http://54.176.112.135';
     //deployed address
     // const address = 'http://52.14.208.55';
 
