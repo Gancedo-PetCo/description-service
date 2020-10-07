@@ -46,8 +46,9 @@ class DescriptionService extends React.Component {
 
     //local address
     // const address = 'http://127.0.0.1';
+    // new deployed address:
     const address = 'http://54.176.112.135';
-    //deployed address
+    //OLD deployed address
     // const address = 'http://52.14.208.55';
 
     axios
