@@ -42,7 +42,7 @@ class DescriptionService extends React.Component {
 
   //Proxy componentDidMount
   componentDidMount() {
-    const item = window.location.href.split('=')[1];
+    const item = window.location.pathname.split('/')[2];
 
     //local address
     // const address = 'http://127.0.0.1';
