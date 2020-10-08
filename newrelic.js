@@ -11,11 +11,11 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: [process.env.NEW_RELIC_APP_NAME],
+  app_name: ['gancedo-descriptions'],
   /**
    * Your New Relic license key.
    */
-  license_key: process.env.NEW_RELIC_LICENSE_KEY,
+  license_key: '886e8ebddf118e3ba6910b38a37870d795bfNRAL',
   /**
    * This setting controls distributed tracing.
    * Distributed tracing lets you see the path that a request takes through your
