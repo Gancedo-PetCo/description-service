@@ -10,7 +10,7 @@
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
     "testSeedGeneration": "jest './test/dataGeneration.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
-    "start": "nodemon start.js ",
+    "start": "nodemon server.js ",
     "postgres-generate": "node database-postgres/generateSeeds.js",
     "postgres-seed-descriptions": "knex seed:run --specific=1seedDescriptions.js",
     "parrallel-postgres-seed": "knex seed:run --specific=3seedDetails.js & knex seed:run --specific=2seedAttributes.js & knex seed:run --specific=4seedDirections.js",
