@@ -33,7 +33,7 @@ class DescriptionService extends React.Component {
     //OLD deployed address
     // const address = 'http://52.14.208.55';
     const description1Address = 'http://54.176.112.135';
-    const description2Address = 'http://54.151.77.163';
+    const description2Address = 'http://54.241.247.2';
     axios
       .get(`${description2Address}/descriptionObject/${item}`)
       .then((data) => {
