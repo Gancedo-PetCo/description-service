@@ -35,7 +35,7 @@ class DescriptionService extends React.Component {
     const description1Address = 'http://54.176.112.135';
     const description2Address = 'http://54.151.77.163';
     axios
-      .get(`${description1Address}/descriptionObject/${item}`)
+      .get(`${description2Address}/descriptionObject/${item}`)
       .then((data) => {
         console.log('Current host::', document.location.hostname);
         console.log('success getting data in componentDidMount');
