@@ -98,32 +98,15 @@ app.get('/itemInformation/:itemId', (req, res) => {
 app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
-  return redis_client.get(
-    `descriptionObject${itemId}`,
-    (err, descriptionObject) => {
-      // check if the object is present in redis already
-      if (descriptionObject) {
-        return res.status(200).send(JSON.parse(descriptionObject));
-      }
-      //
-      else {
-        postgres
-          .getDataForSpecifiedId(itemId)
-          .then((formattedData) => {
-            redis_client.setex(
-              `descriptionObject${itemId}`,
-              86400,
-              JSON.stringify(formattedData)
-            );
-            res.status(200).send(formattedData);
-          })
-          .catch((err) => {
-            res.status(500).send(err);
-            console.log('error in getDescriptionObject: ', err);
-          });
-      }
-    }
-  );
+  postgres
+    .getDataForSpecifiedId(itemId)
+    .then((formattedData) => {
+      res.status(200).send(formattedData);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+      console.log('error in getDescriptionObject: ', err);
+    });
 });
 
 app.post('/descriptionObject', (req, res) => {
